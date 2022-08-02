@@ -10,7 +10,6 @@ jobs:
           API_KEY: ${{ secrets.airtable_token }}
         run: |
           if echo "${{ secrets.airtable_token }}" != ""; then
-            echo "Working!"
-          else
-            echo "Not working!"
+            curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
+            -H "Authorization: Bearer ${{ secrets.airtable_token }}"
           fi
