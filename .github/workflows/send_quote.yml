@@ -5,14 +5,14 @@ on: workflow_dispatch
 jobs:
   publish-sms:
     runs-on: ubuntu-latest
+    env:
+      twilio_auth_token: ${{ secrets.twilio_auth_token }}
     steps:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
       - uses: actions/checkout@v3
-      - env:
-          twilio_auth_token: ${{ secrets.twilio_auth_token }}
-        run: |
+      - run: |
           if echo "${{ secrets.airtable_token }}" != ""; then
             quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
@@ -35,7 +35,7 @@ jobs:
             echo "::warning::No Twilio SID found!"
             exit 1
           fi
-          if echo "${{ secrets.twilio_auth }} == ""; then
+          if echo "${{ env.twilio_auth_token }} == ""; then
             echo "::warning::No Twilio Auth Token found!"
             exit 1
           fi
