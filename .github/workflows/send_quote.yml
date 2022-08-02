@@ -16,7 +16,7 @@ jobs:
           STUDIO_SECRET: ${{ secrets.studio_secret }}
         run: |
           if echo "${{ secrets.airtable_token }}" != ""; then
-            quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/tblM5pnUaphmuxJhb?fields%5B%5D=phrase" \
+            quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
           else
             echo "::warning::No Airtable token found!"
