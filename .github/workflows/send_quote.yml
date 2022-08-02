@@ -8,6 +8,8 @@ jobs:
     steps:
       - env:
           API_KEY: ${{ secrets.airtable_token }}
+          STUDIO_SID: ${{ secrets.studio_sid }}
+          STUDIO_SECRET: ${{ secrets.studio_secret }}
         run: |
           if echo "${{ secrets.airtable_token }}" != ""; then
             quotes=curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
@@ -21,5 +23,3 @@ jobs:
           else
             echo "::warning::No Airtable token found!"
           fi
-          echo $quotes
-          echo $phone_numbers
