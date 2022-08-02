@@ -10,6 +10,16 @@ jobs:
           API_KEY: ${{ secrets.airtable_token }}
         run: |
           if echo "${{ secrets.airtable_token }}" != ""; then
-            curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
+            quotes=curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"
+          else
+            echo "::warning::No Airtable token found!"
           fi
+          if echo "${{ secrets.airtable_token }}" != ""; then
+            phone_numbers=curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phone%20Numbers?maxRecords=3&view=Grid%20view" \
+            -H "Authorization: Bearer ${{ secrets.airtable_token }}"
+          else
+            echo "::warning::No Airtable token found!"
+          fi
+          echo $quotes
+          echo $phone_numbers
