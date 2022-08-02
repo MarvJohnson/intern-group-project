@@ -35,6 +35,14 @@ jobs:
             echo "::warning::Failed to map data to JSON!"
             exit 1
           fi
+          if echo "${{ secrets.twilio_sid }} == ""; then
+            echo "::warning::No Twilio SID found!"
+            exit 1
+          fi
+          if echo "${{ secrets.twilio_auth_token }} == ""; then
+            echo "::warning::No Twilio Auth Token found!"
+            exit 1
+          fi
           curl -X POST "https://studio.twilio.com/v2/Flows/FWff44ff6e975387006dc5bdb613757961/Executions" \
           --data-urlencode "To=${{ secrets.twilio_number }} \
           --data-urlencode "From=${{ secrets.proxy_number }} \
