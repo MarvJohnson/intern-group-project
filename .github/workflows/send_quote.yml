@@ -12,14 +12,14 @@ jobs:
           STUDIO_SECRET: ${{ secrets.studio_secret }}
         run: |
           if echo "${{ secrets.airtable_token }}" != ""; then
-            quotes=curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
-            -H "Authorization: Bearer ${{ secrets.airtable_token }}"
+            quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
+            -H "Authorization: Bearer ${{ secrets.airtable_token }}")
           else
             echo "::warning::No Airtable token found!"
           fi
           if echo "${{ secrets.airtable_token }}" != ""; then
-            phone_numbers=curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phone%20Numbers?maxRecords=3&view=Grid%20view" \
-            -H "Authorization: Bearer ${{ secrets.airtable_token }}"
+            phone_numbers=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phone%20Numbers?maxRecords=3&view=Grid%20view" \
+            -H "Authorization: Bearer ${{ secrets.airtable_token }}")
           else
             echo "::warning::No Airtable token found!"
           fi
