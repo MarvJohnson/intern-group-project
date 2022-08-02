@@ -1,4 +1,4 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
+const [,, quote, phoneNumbers] = process.argv;
 
-console.log(core.getInput("test"));
+console.log(quote);
+console.log(phoneNumbers);
