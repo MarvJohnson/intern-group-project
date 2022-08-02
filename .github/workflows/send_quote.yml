@@ -26,5 +26,7 @@ jobs:
           else
             echo "::warning::No Airtable token found!"
           fi
+          ls
           cd ../../
+          ls
           echo $(node -p '../../format_airtable_data' $quotes $phone_numbers)
