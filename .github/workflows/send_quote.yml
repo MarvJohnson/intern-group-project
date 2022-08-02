@@ -9,6 +9,6 @@ jobs:
       - env:
           API_KEY: ${{ secrets.airtable_token }}
         run: |
-          if ${{ secrets.airtable_token }} != ""; then
+          if echo "${{ secrets.airtable_token }}" != ""; then
             echo "Working!"
           fi
