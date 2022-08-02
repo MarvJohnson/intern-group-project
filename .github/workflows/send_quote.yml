@@ -31,7 +31,7 @@ jobs:
             echo "::warning::Failed to map data to JSON!"
             exit 1
           fi
-          if echo "${{ secrets.twilio_sid }} == ""; then
+          if echo "${{ secrets.twilio_sid }}" == ""; then
             echo "::warning::No Twilio SID found!"
             exit 1
           fi
