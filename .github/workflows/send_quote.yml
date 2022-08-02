@@ -20,14 +20,19 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
           else
             echo "::warning::No Airtable token found!"
+            exit 1
           fi
           if echo "${{ secrets.airtable_token }}" != ""; then
             phone_numbers=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/tbllxCDF1n7n83XDB?fields%5B%5D=number" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
           else
             echo "::warning::No Airtable token found!"
+            exit 1
           fi
-          payload=$(npm run format "${quotes}" "${phone_numbers}")
+          if ! payload=$(npm run format "${quotes}" "${phone_numbers}"); then
+            echo "::warning::Failed to map data to JSON!"
+            exit 1
+          fi
           curl -X POST "https://studio.twilio.com/v2/Flows/FW738979ea1b5270b6bb2aa62ce1413323/Executions" \
           --data-urlencode "To=${{ secrets.proxy_number }} \
           --data-urlencode "From=${{ secrets.twilio_number }} \
