@@ -26,4 +26,4 @@ jobs:
           else
             echo "::warning::No Airtable token found!"
           fi
-          echo $(node -p 'format_airtable_data.js' $quotes $phone_numbers)
+          echo $(node -p format_airtable_data.js $quotes $phone_numbers)
