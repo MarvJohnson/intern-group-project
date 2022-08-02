@@ -1,0 +1,14 @@
+name: Send Quote
+
+on: workflow_dispatch
+
+jobs:
+  publish-sms:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          API_KEY: ${{ secrets.airtable_token }}
+        run: |
+          if ${{ secrets.airtable_token }} != ""; then
+            echo "Working!"
+          fi
