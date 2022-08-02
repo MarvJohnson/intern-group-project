@@ -26,6 +26,6 @@ jobs:
           else
             echo "::warning::No Airtable token found!"
           fi
-          json=$(node -e -p "console.log('${quotes}')")
+          json=$(node -p "console.log('${quotes}')")
           echo $json
           
