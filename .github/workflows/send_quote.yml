@@ -27,4 +27,4 @@ jobs:
           else
             echo "::warning::No Airtable token found!"
           fi
-          echo $(npm run format --$quotes --$phone_numbers)
+          echo $(npm run format --"${quotes}" --"${phone_numbers}")
