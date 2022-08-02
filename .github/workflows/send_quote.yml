@@ -35,7 +35,7 @@ jobs:
             echo "::warning::No Twilio SID found!"
             exit 1
           fi
-          if echo "${{ env.twilio_auth_token }} == ""; then
+          if echo "${{ secrets.twilio_auth }} == ""; then
             echo "::warning::No Twilio Auth Token found!"
             exit 1
           fi
