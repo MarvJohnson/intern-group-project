@@ -22,7 +22,7 @@ jobs:
             exit 1
           fi
           if echo "${{ secrets.airtable_token }}" != ""; then
-            phone_numbers=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/tbllxCDF1n7n83XDB?fields%5B%5D=number" \
+            phone_numbers=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/tbltAFtO1BCNYLVEo?fields%5B%5D=number" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
           else
             echo "::warning::No Airtable token found!"
