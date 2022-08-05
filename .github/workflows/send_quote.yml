@@ -28,7 +28,7 @@ jobs:
             echo "::warning::No Airtable token found!"
             exit 1
           fi
-          if ! payload=$(npm run format "${quotes}" "${phone_numbers}"); then
+          if ! payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}"); then
             echo "::warning::Failed to map data to JSON!"
             exit 1
           fi
