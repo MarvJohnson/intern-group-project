@@ -47,6 +47,7 @@ jobs:
             --data-urlencode "To=${{ secrets.twilio_number }}" \
             --data-urlencode "From=${{ secrets.proxy_number }}" \
             -u "${{ secrets.twilio_sid }}:${{ secrets.twilio_auth_token }}"
+            -d "${payload}"
           else
             echo "::warning::Twilio or Proxy number missing!"
           fi
