@@ -42,7 +42,6 @@ jobs:
           else
             echo "::warning::No Twilio Auth Token found!"
           fi
-          exit 0
           curl -X POST "https://studio.twilio.com/v2/Flows/FW738979ea1b5270b6bb2aa62ce1413323/Executions" \
           --data-urlencode "To=${{ secrets.twilio_number }} \
           --data-urlencode "From=${{ secrets.proxy_number }} \
