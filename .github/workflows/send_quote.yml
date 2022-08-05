@@ -45,5 +45,4 @@ jobs:
           curl -X POST "https://studio.twilio.com/v2/Flows/FW738979ea1b5270b6bb2aa62ce1413323/Executions" \
           --data-urlencode "To=${{ secrets.twilio_number }} \
           --data-urlencode "From=${{ secrets.proxy_number }} \
-          -u "${{ secrets.twilio_sid }}:${{ secrets.twilio_auth_token }}" \
-          -d "${payload}"
+          -u "${{ secrets.twilio_sid }}:${{ secrets.twilio_auth_token }}"
