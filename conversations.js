@@ -11,38 +11,32 @@ phoneNumbers = JSON.parse(phoneNumbers).records.map(record => record.fields.numb
 // retrieve quote
 quote = JSON.parse(quote).records[0].fields.quote;
 
-// create empty, temporary conversation
-let quoteConversation;
-client.conversations.v1.conversations
-                       .create({friendlyName: 'Quote Recipients'})
-                       .then(conversation => quoteConversation = conversation);
+// send quote
+sendMessage();
 
-if (quoteConversation) {
+async function sendMessage() {
 
-    // add phone numbers to empty conversation
-    phoneNumbers.forEach(number => {
-        // add phone number as participant to the conversation
-        quoteConversation.participants
-        .create({
-           'messagingBinding.address': number,
-           'messagingBinding.proxyAddress': '<Twilio Number (Secret)>'
-         });
-    });
+    // create empty conversation
+    let conversation = await client.conversations.v1.conversations.create({friendlyName: 'Quote Recipients'});
+
+    // add phone numbers to conversation
+    await phoneNumbers.forEach(number => addPhoneNumber(conversation.sid, number));
+
+    // create message in conversation
+    await client.conversations.v1.conversations(conversation.sid).messages.create({author: 'Quote', body: quote});
 
     // attach Studio Flow to conversation
-    quoteConversation.webhooks
-    .create({
-       'configuration.flowSid': 'FW738979ea1b5270b6bb2aa62ce1413323',
-       'configuration.replayAfter': 0,
-       target: 'studio'
-     });
+    await client.conversations.v1.conversations(conversation.sid).webhooks.create({
+      'configuration.flowSid': 'FW738979ea1b5270b6bb2aa62ce1413323',
+      'configuration.replayAfter': 0,
+      target: 'studio'
+   });
 
-     // create message in conversation
-     quoteConversation.messages
-     .create({
-        author: 'Quote', 
-        body: quote
-    });
 }
 
-// will need to delete conversation when the Studio Flow ends
+async function addPhoneNumber(conversationSID, number) {
+      await client.conversations.v1.conversations(conversationSID).participants.create({
+            'messagingBinding.address': number,
+            'messagingBinding.proxyAddress': '+19787889426'
+      });
+}
