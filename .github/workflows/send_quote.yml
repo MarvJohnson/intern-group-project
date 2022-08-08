@@ -31,7 +31,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
               echo "current_quote_index_response ${current_quote_index_response}"
               current_quote_index=$(node -p "console.log(${current_quote_index_response}.fields.index)")
-              echo "current_quote_index: ${current_quote_index}"
+              echo "current_quote_index set to [${current_quote_index}]"
             else
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             fi
