@@ -64,7 +64,7 @@ jobs:
             -H "Content-Type: application/json" \
             --data '{
             "fields": {
-              "index": ${new_current_quote_index}
+              "index": $new_current_quote_index
             }
           }'
           
