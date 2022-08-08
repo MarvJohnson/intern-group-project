@@ -33,11 +33,11 @@ console.log(accountSid);
 //       target: 'studio'
 //    });
 
-}
+// }
 
-async function addPhoneNumber(conversationSID, number) {
-      await client.conversations.v1.conversations(conversationSID).participants.create({
-            'messagingBinding.address': number,
-            'messagingBinding.proxyAddress': proxyNumber
-      });
-}
+// async function addPhoneNumber(conversationSID, number) {
+//       await client.conversations.v1.conversations(conversationSID).participants.create({
+//             'messagingBinding.address': number,
+//             'messagingBinding.proxyAddress': proxyNumber
+//       });
+// }
