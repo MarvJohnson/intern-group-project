@@ -63,6 +63,6 @@ jobs:
           curl -X PATCH https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}" \
             -H "Content-Type: application/json" \
-            --data '{"fields": {"index": 0}}'
+            --data '{"fields": {"index": ${new_current_quote_index}}}'
           
           
