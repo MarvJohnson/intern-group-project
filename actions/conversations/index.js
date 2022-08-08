@@ -1,44 +1,48 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
 
-console.log(core.getInput('payload'));
+const payload = JSON.parse(core.getInput('payload'));
 
-//retrieve twilio client (need secrets)
-// const accountSid = process.env.TWILIO_ACCOUNT_SID;
-// const authToken = process.env.TWILIO_AUTH_TOKEN;
-// const flowSid = process.env.FLOW_SID;
-// const proxyNumber = process.env.PROXY_NUMBER;
-// const client = require('twilio')(accountSid, authToken);
+// console.log(core.getInput('payload'));
 
-// // retrieve phone number array
-// phoneNumbers = JSON.parse(phoneNumbers).records.map(record => record.fields.number);
+// retrieve twilio client (need secrets)
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const flowSid = process.env.FLOW_SID;
+const proxyNumber = process.env.PROXY_NUMBER;
+const client = require('twilio')(accountSid, authToken);
 
-// // send quote
-// sendMessage();
+// retrieve phone number array
+const phoneNumbers = payload.phoneNumbers;
 
-// async function sendMessage() {
+// retrieve quote
+const quote = payload.quote;
 
-//     // create empty conversation
-//     let conversation = await client.conversations.v1.conversations.create({friendlyName: 'Quote Recipients'});
+// send quote
+sendMessage();
 
-//     // add phone numbers to conversation
-//     await phoneNumbers.forEach(number => addPhoneNumber(conversation.sid, number));
+async function sendMessage() {
 
-//     // create message in conversation
-//     await client.conversations.v1.conversations(conversation.sid).messages.create({author: 'Quote', body: quote});
+    // create empty conversation
+    let conversation = await client.conversations.v1.conversations.create({friendlyName: 'Quote Recipients'});
 
-//     // attach Studio Flow to conversation
-//     await client.conversations.v1.conversations(conversation.sid).webhooks.create({
-//       'configuration.flowSid': flowSid,
-//       'configuration.replayAfter': 0,
-//       target: 'studio'
-//    });
+    // add phone numbers to conversation
+    await phoneNumbers.forEach(number => addPhoneNumber(conversation.sid, number));
 
-// }
+    // create message in conversation
+    await client.conversations.v1.conversations(conversation.sid).messages.create({author: 'Quote', body: quote});
 
-// async function addPhoneNumber(conversationSID, number) {
-//       await client.conversations.v1.conversations(conversationSID).participants.create({
-//             'messagingBinding.address': number,
-//             'messagingBinding.proxyAddress': proxyNumber
-//       });
-// }
+    // attach Studio Flow to conversation
+    await client.conversations.v1.conversations(conversation.sid).webhooks.create({
+      'configuration.flowSid': flowSid,
+      'configuration.replayAfter': 0,
+      target: 'studio'
+   });
+
+}
+
+async function addPhoneNumber(conversationSID, number) {
+      await client.conversations.v1.conversations(conversationSID).participants.create({
+            'messagingBinding.address': number,
+            'messagingBinding.proxyAddress': proxyNumber
+      });
+}
