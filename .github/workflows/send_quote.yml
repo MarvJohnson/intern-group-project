@@ -56,6 +56,6 @@ jobs:
       - if: ${{ success() && failure() }}
         uses: MarvJohnson/intern-group-project/actions/conversations@main
       - run: |
-          node ./get_next_quote_index
+          node ./get_next_quote_index "${current_quote_index_response}"
           
           
