@@ -1,8 +1,6 @@
 name: "Check Package Version"
 inputs:
-  quote:
-    type: string
-  phoneNumbers:
+  payload:
     type: string
 runs:
   using: "node12"
