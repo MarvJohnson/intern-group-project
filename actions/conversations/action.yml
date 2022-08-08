@@ -2,6 +2,8 @@ name: "Check Package Version"
 inputs:
   payload:
     type: string
+  TWILIO_ACCOUNT_SID:
+    type: string
 runs:
   using: "node12"
   main: "index.js"
