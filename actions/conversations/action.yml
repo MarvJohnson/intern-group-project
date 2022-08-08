@@ -1,0 +1,4 @@
+name: "Check Package Version"
+runs:
+  using: "node14"
+  main: "index.js"
