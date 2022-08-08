@@ -24,7 +24,7 @@ async function sendMessage() {
     let conversation = await client.conversations.v1.conversations.create({friendlyName: 'Quote Recipients'});
 
     // add phone numbers to conversation
-    await phoneNumbers.forEach(number => addPhoneNumber(conversation.sid, number));
+    await Promise.all(phoneNumbers.map(async number => await addPhoneNumber(conversation.sid, number)));
 
     // create message in conversation
     await client.conversations.v1.conversations(conversation.sid).messages.create({author: 'Quote', body: quote});
