@@ -2,7 +2,7 @@ const core = require('@actions/core');
 
 const payload = JSON.parse(core.getInput('payload'));
 
-// console.log(core.getInput('payload'));
+console.log(process.env.TEST);
 
 // retrieve twilio client (need secrets)
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -10,8 +10,6 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const flowSid = process.env.FLOW_SID;
 const proxyNumber = process.env.PROXY_NUMBER;
 const client = require('twilio')(accountSid, authToken);
-
-console.log(process.env.TEST);
 
 // retrieve phone number array
 const phoneNumbers = payload.phoneNumbers;
