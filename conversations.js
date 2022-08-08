@@ -10,9 +10,6 @@ const client = require('twilio')(accountSid, authToken);
 // retrieve phone number array
 phoneNumbers = JSON.parse(phoneNumbers).records.map(record => record.fields.number);
 
-// retrieve quote
-quote = JSON.parse(quote).records[0].fields.quote;
-
 // send quote
 sendMessage();
 
