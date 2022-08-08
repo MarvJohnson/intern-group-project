@@ -60,7 +60,7 @@ jobs:
       - run: |
           new_current_quote_index=$(node -p -e "${{ fromJSON(env.current_quote_index_response).fields.index }} + 1")
           echo $new_current_quote_index
-          index_patch='{"fields": {"index": ${new_current_quote_index} }}'
+          index_patch='{"fields": {"index": $($new_current_quote_index) }}'
           echo $index_patch
           curl -X PATCH https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}" \
