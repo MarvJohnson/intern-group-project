@@ -31,7 +31,6 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             fi
-            echo $current_quote_index_response
           else
             echo "::warning::No Airtable token found!"
             exit 1
@@ -50,6 +49,7 @@ jobs:
           else
             echo "::warning::No Twilio Auth Token found!"
           fi
+          echo $payload
           exit 1
           if echo "${{ secrets.twilio_number }}" != "" && echo "${{ secrets.proxy_number }}" != ""; then
             if node ./conversations.js "${quotes}" "${phone_numbers}"; then
