@@ -30,6 +30,7 @@ jobs:
             if current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
               current_quote_index=$(node -p "console.log(${current_quote_index_response})")
+              echo "current_quote_index: ${current_quote_index}"
             else
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             fi
