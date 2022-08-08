@@ -9,11 +9,10 @@ jobs:
   publish-sms:
     runs-on: ubuntu-latest
     env:
-      TWILIO_ACCOUNT_SID: ${{ secrets.twilio_account_sid }}
+      TWILIO_ACCOUNT_SID: ${{ secrets.twilio_sid }}
       TWILIO_AUTH_TOKEN: ${{ secrets.twilio_auth_token }}
       FLOW_SID: ${{ secrets.flow_sid }}
       PROXY_NUMBER: ${{ secrets.proxy_number }}
-      TEST: testing
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -58,7 +57,4 @@ jobs:
       - run: |
           echo "Payload is ${{ env.payload }}"
       - uses: MarvJohnson/intern-group-project/actions/conversations@main
-        with:
-          payload: ${{ env.payload }}
-          TWILIO_ACCOUNT_SID: ${{ secrets.twilio_account_sid }}
           
