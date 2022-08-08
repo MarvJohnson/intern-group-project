@@ -28,6 +28,7 @@ jobs:
             if ! current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
+            echo "phoneNumbers=${phone_numbers}" >> $GITHUB_ENV
             fi
           else
             echo "::warning::No Airtable token found!"
@@ -49,17 +50,13 @@ jobs:
           else
             echo "::warning::No Twilio Auth Token found!"
           fi
-          if echo "${{ secrets.twilio_number }}" != "" && echo "${{ secrets.proxy_number }}" != ""; then
+          if echo "${{ secrets.twilio_number }}" == "" || echo "${{ secrets.proxy_number }}" == ""; then
             account_sid=${{ env.twilio_account_sid }}
-            if node ./conversations.js "${quotes}" "${phone_numbers}" "'$ACCOUNT_SID'"; then
-              echo $(node -p "Number(process.argv[2]) + 1" "${current_quote_index}")
-            else
-              echo "::warning::Ran into problem when running conversations.js!"
-            fi
-          else
             echo "::warning::Twilio or Proxy number missing!"
           fi
-      - uses: MarvJohnson/intern-group-project/actions/conversations@main
       - run: |
           echo "Payload is ${{ env.payload }}"
+      - uses: MarvJohnson/intern-group-project/actions/conversations@main
+        with:
+          payload: ${{ env.payload }}
           
