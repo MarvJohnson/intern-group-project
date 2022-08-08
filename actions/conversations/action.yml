@@ -1,4 +1,9 @@
 name: "Check Package Version"
+inputs:
+  quote:
+    type: string
+  phoneNumbers:
+    type: string
 runs:
   using: "node14"
   main: "index.js"
