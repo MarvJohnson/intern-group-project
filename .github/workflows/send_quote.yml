@@ -29,8 +29,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
             if current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
-              current_quote_index=$(node -p "console.log(${current_quote_index_response})")
-              exit 1
+              current_quote_index=$(node -p "${current_quote_index_response}")
             else
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             fi
@@ -43,15 +42,16 @@ jobs:
             exit 1
           fi
           if echo "${{ secrets.twilio_sid }}" != ""; then
-            echo "Working!"
+            echo "Twilio Sid found!!"
           else
             echo "::warning::No Twilio SID found!"
           fi
           if echo "${{ secrets.twilio_auth_token}}" != ""; then
-            echo "Working!"
+            echo "Twilio Auth Token found!"
           else
             echo "::warning::No Twilio Auth Token found!"
           fi
+          exit 1
           if echo "${{ secrets.twilio_number }}" != "" && echo "${{ secrets.proxy_number }}" != ""; then
             if node ./conversations.js "${quotes}" "${phone_numbers}"; then
               echo $(node -p "Number(process.argv[2]) + 1" "${current_quote_index}")
