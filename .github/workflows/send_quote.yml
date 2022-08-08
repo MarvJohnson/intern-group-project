@@ -33,7 +33,9 @@ jobs:
             echo "::warning::No Airtable token found!"
             exit 1
           fi
-          if ! payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}" "${current_quote_index_response}"); then
+          if payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}" "${current_quote_index_response}"); then
+            echo "payload=${payload}" >> $GITHUB_ENV
+          else
             echo "::warning::Failed to map data to JSON!"
             exit 1
           fi
@@ -57,3 +59,7 @@ jobs:
           else
             echo "::warning::Twilio or Proxy number missing!"
           fi
+      - uses: MarvJohnson/intern-group-project/actions/conversations@main
+      - run: |
+          echo "Payload is ${{ env.payload }}"
+          
