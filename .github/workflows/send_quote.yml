@@ -22,6 +22,7 @@ jobs:
           FLOW_SID: ${{ secrets.flow_sid }}
           PROXY_NUMBER: ${{ secrets.proxy_number }}
         run: |
+          npm i twilio
           if echo "${{ secrets.airtable_token }}" != ""; then
             quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
