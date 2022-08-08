@@ -1,4 +1,4 @@
-let [,, quote, phoneNumbers, accountSid, authToken, flowsid, proxyNumber, client] = process.argv;
+let [,, quote, phoneNumbers, accountSid, authToken, flowsid, proxyNumber] = process.argv;
 
 const client = require('twilio')(accountSid, authToken);
 
