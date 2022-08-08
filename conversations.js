@@ -1,7 +1,7 @@
-let [,, quote, phoneNumbers] = process.argv;
+let [,, quote, phoneNumbers, accountSid] = process.argv;
 
 // retrieve twilio client (need secrets)
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const flowSid = process.env.FLOW_SID;
 const proxyNumber = process.env.PROXY_NUMBER;
