@@ -31,6 +31,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             fi
+            echo $current_quote_index_response
           else
             echo "::warning::No Airtable token found!"
             exit 1
