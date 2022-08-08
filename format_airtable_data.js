@@ -1,8 +1,8 @@
 let [,, quote, phoneNumbers, quoteIndex] = process.argv;
 
-console.log(`quoteIndex is [${quoteIndex}]`);
 
-quoteIndex = Number(quoteIndex.fields.index);
+
+quoteIndex = Number(JSON.parse(quoteIndex).fields.index);
 quote = JSON.parse(quote).records[quoteIndex].fields.quote;
 phoneNumbers = JSON.parse(phoneNumbers).records.map(record => record.fields.number);
 
