@@ -58,12 +58,15 @@ jobs:
       - if: ${{ success() && failure() }}
         uses: MarvJohnson/intern-group-project/actions/conversations@main
       - run: |
-          new_current_quote_index=$(node -p -e "${{ fromJSON(env.current_quote_index_response).fields.index }} + 1")
-          index_patch=$(echo '{"fields": {"index": ${new_current_quote_index} }}')
-          echo $index_patch
+          echo "next_quote_index=$(node -p -e "${{ fromJSON(env.current_quote_index_response).fields.index }} + 1")" >> $GITHUB_ENV
+      - run: |
           curl -X PATCH https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}" \
             -H "Content-Type: application/json" \
-            --data '$index_patch'
+            --data '{
+            "fields": {
+              "index": ${{ env.next_quote_index }}
+            }
+          }'
           
           
