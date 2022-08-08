@@ -9,7 +9,6 @@ jobs:
   publish-sms:
     runs-on: ubuntu-latest
     env:
-      CI: true
       TWILIO_ACCOUNT_SID: ${{ secrets.twilio_account_sid }}
       TWILIO_AUTH_TOKEN: ${{ secrets.twilio_auth_token }}
       FLOW_SID: ${{ secrets.flow_sid }}
@@ -49,7 +48,7 @@ jobs:
             echo "::warning::No Twilio Auth Token found!"
           fi
           if echo "${{ secrets.twilio_number }}" != "" && echo "${{ secrets.proxy_number }}" != ""; then
-            if node ./conversations.js "${quotes}" "${phone_numbers}"; then
+            if node ./conversations.js "${quotes}" "${phone_numbers}" "${{ secrets.twilio_account_sid }}"; then
               echo $(node -p "Number(process.argv[2]) + 1" "${current_quote_index}")
             else
               echo "::warning::Ran into problem when running conversations.js!"
