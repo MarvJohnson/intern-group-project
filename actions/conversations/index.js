@@ -11,6 +11,8 @@ const flowSid = process.env.FLOW_SID;
 const proxyNumber = process.env.PROXY_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 
+console.log(proxyNumber.length);
+
 // retrieve phone number array
 const phoneNumbers = payload.phoneNumbers;
 
