@@ -25,18 +25,8 @@ jobs:
           if echo "${{ secrets.airtable_token }}" != ""; then
             quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
-          else
-            echo "::warning::No Airtable token found!"
-            exit 1
-          fi
-          if echo "${{ secrets.airtable_token }}" != ""; then
             phone_numbers=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/tbltAFtO1BCNYLVEo?fields%5B%5D=number" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
-          else
-            echo "::warning::No Airtable token found!"
-            exit 1
-          fi
-          if echo "${{ secrets.airtable_token }}" != ""; then
             if current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
               current_quote_index=$(node -p "JSON.parse(${current_quote_index_response}).fields.index")
@@ -44,7 +34,7 @@ jobs:
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             fi
           else
-            echo "::warning:No Airtable token found!"
+            echo "::warning::No Airtable token found!"
             exit 1
           fi
           if ! payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}" "${current_quote_index}"); then
