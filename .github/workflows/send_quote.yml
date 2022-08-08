@@ -25,8 +25,10 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
             phone_numbers=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/tbltAFtO1BCNYLVEo?fields%5B%5D=number" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
-            if ! current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
+            if current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
+              echo "current_quote_index_response=${current_quote_index_response}" >> $GITHUB_ENV
+            else
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             echo "phoneNumbers=${phone_numbers}" >> $GITHUB_ENV
             fi
@@ -56,6 +58,6 @@ jobs:
       - if: ${{ success() && failure() }}
         uses: MarvJohnson/intern-group-project/actions/conversations@main
       - run: |
-          node ./get_next_quote_index "${current_quote_index_response}"
+          node ./get_next_quote_index "${{ env.current_quote_index_response }}"
           
           
