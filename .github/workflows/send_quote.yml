@@ -27,19 +27,15 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
             phone_numbers=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/tbltAFtO1BCNYLVEo?fields%5B%5D=number" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
-            if current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
+            if ! current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
-              echo "current_quote_index_response ${current_quote_index_response}"
-              current_quote_index=$(node -p -e "${current_quote_index_response}")
-              echo "current_quote_index set to [${current_quote_index}]"
-            else
               echo "::warning::Failed to get current_quote_index_response from Airtable!"
             fi
           else
             echo "::warning::No Airtable token found!"
             exit 1
           fi
-          if ! payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}" "${current_quote_index}"); then
+          if ! payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}" "${current_quote_index_response}"); then
             echo "::warning::Failed to map data to JSON!"
             exit 1
           fi
