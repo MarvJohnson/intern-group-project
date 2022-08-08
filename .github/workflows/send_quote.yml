@@ -51,10 +51,11 @@ jobs:
             echo "::warning::No Twilio Auth Token found!"
           fi
           if echo "${{ secrets.twilio_number }}" == "" || echo "${{ secrets.proxy_number }}" == ""; then
-            account_sid=${{ env.twilio_account_sid }}
             echo "::warning::Twilio or Proxy number missing!"
           fi
+      - if: ${{ success() && failure() }}
+        uses: MarvJohnson/intern-group-project/actions/conversations@main
       - run: |
-          echo "Payload is ${{ env.payload }}"
-      - uses: MarvJohnson/intern-group-project/actions/conversations@main
+          node -p ./get_next_quote_index
+          
           
