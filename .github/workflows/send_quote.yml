@@ -49,8 +49,6 @@ jobs:
           else
             echo "::warning::No Twilio Auth Token found!"
           fi
-          echo $payload
-          exit 1
           if echo "${{ secrets.twilio_number }}" != "" && echo "${{ secrets.proxy_number }}" != ""; then
             if node ./conversations.js "${quotes}" "${phone_numbers}"; then
               echo $(node -p "Number(process.argv[2]) + 1" "${current_quote_index}")
