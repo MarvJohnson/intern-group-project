@@ -3,6 +3,8 @@ let [,, quote, phoneNumbers] = process.argv;
 // retrieve twilio client (need secrets)
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
+const flowSid = process.env.FLOW_SID;
+const proxyNumber = process.env.PROXY_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 
 // retrieve phone number array
@@ -27,7 +29,7 @@ async function sendMessage() {
 
     // attach Studio Flow to conversation
     await client.conversations.v1.conversations(conversation.sid).webhooks.create({
-      'configuration.flowSid': 'FW738979ea1b5270b6bb2aa62ce1413323',
+      'configuration.flowSid': flowSid,
       'configuration.replayAfter': 0,
       target: 'studio'
    });
@@ -37,6 +39,6 @@ async function sendMessage() {
 async function addPhoneNumber(conversationSID, number) {
       await client.conversations.v1.conversations(conversationSID).participants.create({
             'messagingBinding.address': number,
-            'messagingBinding.proxyAddress': '+19787889426'
+            'messagingBinding.proxyAddress': proxyNumber
       });
 }
