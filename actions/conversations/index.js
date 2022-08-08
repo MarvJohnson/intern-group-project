@@ -8,7 +8,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const flowSid = process.env.FLOW_SID;
 const proxyNumber = process.env.PROXY_NUMBER;
 
-console.log(accountSid.length);
+console.log(core.getInput('TWILIO_ACCOUNT_SID'));
 
 const client = require('twilio')(accountSid, authToken);
 
