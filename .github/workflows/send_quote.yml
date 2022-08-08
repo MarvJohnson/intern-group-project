@@ -19,12 +19,7 @@ jobs:
           node-version: 14
       - uses: actions/checkout@v3
       - run: |
-          npm i twilio @actions/core @actions/github
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "<>"
-          git add .
-          git commit -m "Installed packages"
-          git push origin main
+          npm i twilio
           if echo "${{ secrets.airtable_token }}" != ""; then
             quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
