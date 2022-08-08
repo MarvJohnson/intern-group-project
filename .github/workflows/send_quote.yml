@@ -16,7 +16,12 @@ jobs:
         with:
           node-version: 14
       - uses: actions/checkout@v3
-      - run: |
+      - env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.twilio_account_sid }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.twilio_auth_token }}
+          FLOW_SID: ${{ secrets.flow_sid }}
+          PROXY_NUMBER: ${{ secrets.proxy_number }}
+        run: |
           if echo "${{ secrets.airtable_token }}" != ""; then
             quotes=$(curl "https://api.airtable.com/v0/applZLh474nuvYxNE/Phrases?maxRecords=3&view=Grid%20view" \
             -H "Authorization: Bearer ${{ secrets.airtable_token }}")
@@ -31,7 +36,18 @@ jobs:
             echo "::warning::No Airtable token found!"
             exit 1
           fi
-          if ! payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}"); then
+          if echo "${{ secrets.airtable_token }}" != ""; then
+            if current_quote_index_response=$(curl https://api.airtable.com/v0/applZLh474nuvYxNE/Current%20Quote%20Index/rec2Gg9nrCldTPt0N \
+            -H "Authorization: Bearer ${{ secrets.airtable_token }}"); then
+              current_quote_index=$(node -p "JSON.parse(${current_quote_index_response}).fields.index")
+            else
+              echo "::warning::Failed to get current_quote_index_response from Airtable!"
+            fi
+          else
+            echo "::warning:No Airtable token found!"
+            exit 1
+          fi
+          if ! payload=$(node ./format_airtable_data.js "${quotes}" "${phone_numbers}" "${current_quote_index}"); then
             echo "::warning::Failed to map data to JSON!"
             exit 1
           fi
@@ -46,12 +62,11 @@ jobs:
             echo "::warning::No Twilio Auth Token found!"
           fi
           if echo "${{ secrets.twilio_number }}" != "" && echo "${{ secrets.proxy_number }}" != ""; then
-            echo ${payload}
-            curl -X POST "https://studio.twilio.com/v2/Flows/FW738979ea1b5270b6bb2aa62ce1413323/Executions" \
-            --data-urlencode "Parameters=${payload}" \
-            --data-urlencode "To=${{ secrets.twilio_number }}" \
-            --data-urlencode "From=${{ secrets.proxy_number }}" \
-            -u "${{ secrets.twilio_sid }}:${{ secrets.twilio_auth_token }}"
+            if node ./conversations.js "${quotes}" "${phone_numbers}"; then
+              echo $(node -p "Number(process.argv[2]) + 1" "${current_quote_index}")
+            else
+              echo "::warning::Ran into problem when running conversations.js!"
+            fi
           else
             echo "::warning::Twilio or Proxy number missing!"
           fi
