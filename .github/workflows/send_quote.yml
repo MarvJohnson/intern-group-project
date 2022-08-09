@@ -55,8 +55,7 @@ jobs:
           if echo "${{ secrets.twilio_number }}" == "" || echo "${{ secrets.proxy_number }}" == ""; then
             echo "::warning::Twilio or Proxy number missing!"
           fi
-      - if: ${{ success() && failure() }}
-        uses: MarvJohnson/intern-group-project/actions/conversations@main
+      - uses: MarvJohnson/intern-group-project/actions/conversations@main
       - run: |
           echo "next_quote_index=$(node -p -e "${{ fromJSON(env.current_quote_index_response).fields.index }} + 1")" >> $GITHUB_ENV
       - run: |
